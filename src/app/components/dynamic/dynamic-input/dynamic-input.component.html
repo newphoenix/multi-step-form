@@ -1,0 +1,39 @@
+<form [formGroup]="formName()">
+    @if(field().array){
+    <!-- Array of fields that can expand-->
+    <div [formArrayName]="field()['fieldName']" class="form-group"
+        *ngFor="let data of fieldFormArray(field()['fieldName']).controls; let i=index">
+        <div class="row">
+            <div class="col-lg-11">
+                <input id="{{field()['fieldName']+'-'+i}}" type="text" [formControlName]="i"
+                    class="form-control form-control-sm mr-2 mt-2" [placeholder]="field()['label']" autocomplete="off">
+            </div>
+            <div *ngIf="i > 0" class="col-lg-1">
+                <button (click)="deleteRow(i,field()['fieldName'])" class="btn btn-danger mt-2 fa fa-trash"></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col mb-3 mt-3">
+        <div class="form-group">
+            <button (click)="addROW(field()['fieldName'])" class="btn btn-primary btn-md">
+                + {{field()['fieldName']}}
+            </button>
+        </div>
+    </div>
+
+    }@else{
+    <!-- one input field  -->
+    <div class="form-group mt-3 mb-3">
+        <label [for]="field()['fieldName']">{{field()['label']}} <small class="text-danger">*</small> </label>
+        <input [id]="field()['fieldName']" [type]="field()['type']" [formControlName]="field()['fieldName']"
+            class="form-control" [placeholder]="field()['fieldName']" autocomplete="off"
+            [ngClass]="{'is-invalid': (formNameControl.errors || formHasErrors() ) && (formNameControl.dirty || formNameControl.touched), 'custom-range': field().type === 'range' }">
+        <app-dynamic-error class="invalid-feedback" [formName]="formName()" [fieldName]="field().fieldName"
+            [validationMessages]="validationMessages()"
+            [specialValidationMessages]="specialValidationMessages()"></app-dynamic-error>
+    </div>
+    }
+
+
+</form>

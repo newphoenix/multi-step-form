@@ -1,0 +1,9 @@
+<form [formGroup]="formName()" class="mb-3 mt-3">
+    <label [for]="field()['fieldName']">{{field()['label']}}</label>
+    <textarea [formControlName]="field()['fieldName']" class="form-control" [id]="field()['fieldName']"
+        [placeholder]="field()['fieldName']"
+        [ngClass]="{'is-invalid': formNameControl.errors && (formNameControl.dirty || formNameControl.touched)}"></textarea>
+    <app-dynamic-error class="invalid-feedback" [formName]="formName()" [fieldName]="field().fieldName"
+        [validationMessages]="validationMessages()"></app-dynamic-error>
+
+</form>

@@ -1,0 +1,29 @@
+<form [formGroup]="formName()">
+
+
+    <div class="form-group mt-2">
+        <label [for]="field()['fieldName']">{{field()['label']}} <small class="text-danger">*</small> </label>
+        <br>
+        <input [id]="field()['fieldName']" type='file' (change)="captureFile($event)" class="form-control noDisplay"
+            [placeholder]="field()['fieldName']" autocomplete="off"
+            [ngClass]="{'is-invalid': (formNameControl.errors || formHasErrors() ) && (formNameControl.dirty || formNameControl.touched), 'custom-range': field().type === 'range' }">
+
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-primary" (click)="clickFileInput()"><i class="fas fa-upload"></i>
+                    Browse</button>
+            </div>
+            <div class="col-md-6">
+                <input value="{{fileName(field()['fieldName']) || field().value}}"
+                    class="form-control-plaintext noBorder" readonly=true>
+            </div>
+        </div>
+
+        <app-dynamic-error class="invalid-feedback" [formName]="formName()" [fieldName]="field().fieldName"
+            [validationMessages]="validationMessages()"
+            [specialValidationMessages]="specialValidationMessages()"></app-dynamic-error>
+
+    </div>
+
+
+</form>

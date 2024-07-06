@@ -1,0 +1,71 @@
+<!-- STEPS WITH NUMBER & TITLE -->
+<div class="stepwizard mt-3">
+    <div class="stepwizard-row setup-panel">
+        @for(step of stepsKeys; track step; let i = $index){
+
+        <div class="stepwizard-step col-xs-3">
+            <a href="javascript:void(0)" type="button" class="btn  btn-circle"
+                [ngClass]="stepNumber == i? 'btn-primary' : 'btn-light' ">{{i+1}}</a>
+            <p><small>{{steps[step]['title']}}</small></p>
+        </div>
+        }
+    </div>
+</div>
+
+
+<!-- FORM -->
+<form class="form" role="form" [formGroup]="form">
+
+    @for(stepKey of stepsKeys; track stepKey; let i = $index){
+
+    <div class="form-group" [formGroupName]="stepKey" *ngIf="showStep[i]">
+
+        @for(fieldKey of fieldsKeys(stepKey); track fieldKey){
+
+        @switch(true){
+        @case(['text', 'email', 'password', 'date' , 'number', 'time',
+        'range'].includes(fieldInStep(stepKey,fieldKey).type)){
+        <app-dynamic-input [formName]="formGroupControlX(stepKey)" [field]="fieldInStep(stepKey,fieldKey)"
+            [validationMessages]="validationMessages"
+            [specialValidationMessages]="specialValidationMessages"></app-dynamic-input>
+        }
+        @case(fieldInStep(stepKey,fieldKey).type === 'file'){
+        <app-dynamic-file-input [formName]="formGroupControlX(stepKey)" [field]="fieldInStep(stepKey,fieldKey)"
+            [validationMessages]="validationMessages" [specialValidationMessages]="specialValidationMessages"
+            (fileFieldData)="setFormFileField($event)"></app-dynamic-file-input>
+        }
+        @case(fieldInStep(stepKey,fieldKey).type ==='select' ){
+        <app-dynamic-select [formName]="formGroupControlX(stepKey)" [field]="fieldInStep(stepKey,fieldKey)"
+            [validationMessages]="validationMessages"></app-dynamic-select>
+        }
+        @case(fieldInStep(stepKey,fieldKey).type ==='checkbox' ){
+        <app-dynamic-checkbox [formName]="formGroupControlX(stepKey)" [field]="fieldInStep(stepKey,fieldKey)"
+            [validationMessages]="validationMessages"></app-dynamic-checkbox>
+        }
+        @case(fieldInStep(stepKey,fieldKey).type ==='radio' ){
+        <app-dynamic-radio [formName]="formGroupControlX(stepKey)" [field]="fieldInStep(stepKey,fieldKey)"
+            [validationMessages]="validationMessages"></app-dynamic-radio>
+        }
+        @case(fieldInStep(stepKey,fieldKey).type ==='textarea' ){
+        <app-dynamic-textarea [formName]="formGroupControlX(stepKey)" [field]="fieldInStep(stepKey,fieldKey)"
+            [validationMessages]="validationMessages"></app-dynamic-textarea>
+        }
+
+        }
+        } <!-- inner for loop  (fields) -->
+
+    </div>
+
+    } <!-- outer for (steps) -->
+
+
+    <!-- Button NEXT, PREVIOUS & SUBMIT-->
+    <div class="button-container">
+        <button *ngIf="stepNumber" type="button" class="btn btn-primary me-3" (click)="previous()">Previous</button>
+        <button *ngIf="this.stepNumber != this.showStep.length - 1" type="button" class="btn btn-primary me-3"
+            (click)="next()">Next</button>
+        <button *ngIf="this.stepNumber == this.showStep.length - 1" type="button" class="btn btn-success me-3"
+            (click)="onSubmit()">Submit</button>
+    </div>
+
+</form>

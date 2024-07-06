@@ -1,0 +1,17 @@
+@if(specialValidationMessages() && getKeys(specialValidationMessages).includes(fieldName()) ){
+
+@for(specialRule of getFieldCrossErrors(fieldName()); track specialRule; let i = $index){
+<div *ngIf="formName().errors?.[specialRule.errorName]">{{specialRule.errorMsg}}</div>
+}
+}
+<div *ngIf="formNameControl.invalid && (formNameControl.dirty || formNameControl.touched)">
+    <div *ngIf="formNameControl.errors?.required">{{validationMessages().get(fieldName())?.get('required')?.msg}}</div>
+    <div *ngIf="formNameControl.errors?.minlength">{{validationMessages().get(fieldName())?.get('minLength')?.msg}}
+    </div>
+    <div *ngIf="formNameControl.errors?.maxlength">{{validationMessages().get(fieldName())?.get('maxLength')?.msg}}
+    </div>
+    <div *ngIf="formNameControl.errors?.email">{{validationMessages().get(fieldName())?.get('email')?.msg}}</div>
+    <div *ngIf="formNameControl.errors?.min">{{validationMessages().get(fieldName())?.get('min')?.msg}}</div>
+    <div *ngIf="formNameControl.errors?.max">{{validationMessages().get(fieldName())?.get('max')?.msg}}</div>
+    <div *ngIf="formNameControl.errors?.pattern">{{validationMessages().get(fieldName())?.get('pattern')?.msg}}</div>
+</div>

@@ -1,0 +1,17 @@
+<form [formGroup]="formName()">
+
+
+
+    <h5>{{field().label}}</h5>
+    <div class="form-check form-check-inline" *ngFor="let option of field().options; index as i"
+        [ngClass]="{'is-invalid': formNameControl.errors && (formNameControl.dirty || formNameControl.touched)}">
+
+        <input class="form-check-input" type="radio" [name]="field().fieldName" [formControlName]="field().fieldName"
+            [value]="option.value" [id]="field().fieldName+i" [checked]="option.value === field().value ? true : false">
+        <label class="form-check-label" [for]="field().fieldName+i">{{option.label}}</label>
+
+    </div>
+    <app-dynamic-error class="invalid-feedback" [formName]="formName()" [fieldName]="field().fieldName"
+        [validationMessages]="validationMessages()"></app-dynamic-error>
+
+</form>
