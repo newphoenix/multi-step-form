@@ -14,9 +14,6 @@ import { DynamicFileInputComponent } from '../../dynamic/dynamic-file-input/dyna
 })
 export class FormWizzardComponent implements OnInit {
 
-  @ViewChildren(DynamicFileInputComponent) inputs!: QueryList<DynamicFileInputComponent>
-
-
   structure = input<any>();
   formSubmit = output<any>();
 
